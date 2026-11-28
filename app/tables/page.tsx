@@ -1,0 +1,3 @@
+import {PublicShell,TableGrid,CTA} from '@/components/public-content';import {publicData} from '@/lib/public-data';
+export const dynamic='force-dynamic';
+export default async function Page(){const {rows,catalogAvailable}=await publicData();return <PublicShell><section className="site-wrap section-space"><p className="eyebrow text-coffee">Find your kind of hello</p><h1 className="public-title">Explore the tables.</h1><p className="section-copy">Seven ways to make room for someone new. Choose a table and connect to chat privately.</p>{!catalogAvailable&&<p className="catalog-note">Standard table guide; live availability unavailable.</p>}<TableGrid rows={rows}/>{rows.length===0&&<p>No active categories yet.</p>}</section><CTA/></PublicShell>}

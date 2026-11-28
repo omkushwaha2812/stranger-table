@@ -1,0 +1,7 @@
+node_modules
+.next
+.env*
+!.env.example
+*.tsbuildinfo
+# Local database and uploaded photos
+data/

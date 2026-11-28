@@ -1,0 +1,6 @@
+import Link from 'next/link';
+import {Coffee} from 'lucide-react';
+import {Toast} from './ui/toast';
+export type Query=Promise<{error?:string;notice?:string;step?:string}>;
+export function AuthShell({title,subtitle,children,error,notice}:{title:string;subtitle:string;children:React.ReactNode;error?:string;notice?:string}){return <main className="auth-shell"><aside className="auth-aside"><Link href="/" className="brand"><Coffee/> stranger table.</Link><div><p className="eyebrow">A seat for someone new</p><h2>Every story begins with a hello.</h2><p>Strangers today. Stories tomorrow.</p></div></aside><section className="auth-content"><Link href="/" className="brand mobile-brand"><Coffee/> stranger table.</Link><div className="auth-card"><p className="eyebrow">Your table, your people</p><h1>{title}</h1><p className="intro">{subtitle}</p>{error&&<Toast kind="error" message={error}/>}{notice&&<Toast message={notice}/>}{children}</div></section></main>}
+export function Field({label,name,type='text',defaultValue,required=true,maxLength,autoComplete}:{label:string;name:string;type?:string;defaultValue?:string|number;required?:boolean;maxLength?:number;autoComplete?:string}){return <label className="field">{label}<input name={name} type={type} defaultValue={defaultValue} required={required} maxLength={maxLength} autoComplete={autoComplete}/></label>}

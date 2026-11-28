@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync as read} from 'node:fs';
+const file=p=>read(new URL('../'+p,import.meta.url),'utf8');
+test('protected layouts invoke authorization',()=>{assert.match(file('app/dashboard/layout.tsx'),/await requireStudent/);assert.match(file('app/admin/layout.tsx'),/await requireAdmin/);});
+test('local auth: scrypt hashes, hashed session tokens, httpOnly cookie',()=>{const p=file('lib/store/passwords.ts');assert.match(p,/crypto\.scrypt/);assert.match(p,/timingSafeEqual/);assert.match(p,/sha256/);const a=file('lib/auth.ts');assert.match(a,/httpOnly: true/);assert.match(a,/sameSite: 'lax'/);for(const fn of ['register','login','logout','reset'])assert.match(file('app/auth/actions.ts'),new RegExp('export async function '+fn+'\\('));});
+test('onboarding validates all steps before saving',()=>{const s=file('app/onboarding/actions.ts');for(const schema of ['personal','selections','meetup'])assert.ok(s.includes(schema+'.safeParse'));assert.match(s,/saveOnboarding/);assert.match(s,/saveDraft/);assert.match(s,/5 \* 1024 \* 1024/);});
+test('writes are synchronous transactions',()=>{const s=file('lib/store/db.ts');assert.match(s,/export function tx/);assert.match(s,/must be synchronous/);assert.match(s,/renameSync/);});
